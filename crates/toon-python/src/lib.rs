@@ -141,7 +141,7 @@ fn merge_availability(
     opaque: bool,
 ) -> PyResult<String> {
     use chrono::{DateTime, NaiveDateTime, Utc};
-    use truth_engine::availability::{PrivacyLevel, EventStream};
+    use truth_engine::availability::{EventStream, PrivacyLevel};
     use truth_engine::expander::ExpandedEvent;
 
     #[derive(serde::Deserialize)]

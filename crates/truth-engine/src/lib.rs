@@ -23,7 +23,7 @@ pub mod expander;
 pub mod freebusy;
 
 pub use availability::{
-    merge_availability, find_first_free_across, BusyBlock, EventStream, PrivacyLevel,
+    find_first_free_across, merge_availability, BusyBlock, EventStream, PrivacyLevel,
     UnifiedAvailability,
 };
 pub use conflict::find_conflicts;

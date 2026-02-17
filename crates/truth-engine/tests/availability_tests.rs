@@ -3,7 +3,9 @@
 //! Follows TDD: tests were written first (RED), then the implementation (GREEN).
 
 use chrono::{TimeZone, Utc};
-use truth_engine::availability::{merge_availability, find_first_free_across, EventStream, PrivacyLevel};
+use truth_engine::availability::{
+    find_first_free_across, merge_availability, EventStream, PrivacyLevel,
+};
 use truth_engine::expander::ExpandedEvent;
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
@@ -46,7 +48,7 @@ fn single_stream_matches_find_free_slots() {
 
     // Should have 3 free slots: 08-09, 10-14, 15-17
     assert_eq!(result.free.len(), 3);
-    assert_eq!(result.free[0].duration_minutes, 60);  // 08:00-09:00
+    assert_eq!(result.free[0].duration_minutes, 60); // 08:00-09:00
     assert_eq!(result.free[1].duration_minutes, 240); // 10:00-14:00
     assert_eq!(result.free[2].duration_minutes, 120); // 15:00-17:00
 
@@ -59,12 +61,14 @@ fn single_stream_matches_find_free_slots() {
 
 #[test]
 fn two_non_overlapping_streams_merge_all_busy_blocks() {
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z"),
-    ]);
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z")],
+    );
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -89,12 +93,14 @@ fn two_non_overlapping_streams_merge_all_busy_blocks() {
 
 #[test]
 fn two_overlapping_streams_merge_with_source_count_2() {
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T11:00:00Z"),
-    ]);
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T10:00:00Z", "2026-03-16T12:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T09:00:00Z", "2026-03-16T11:00:00Z")],
+    );
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T10:00:00Z", "2026-03-16T12:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -129,15 +135,18 @@ fn two_overlapping_streams_merge_with_source_count_2() {
 
 #[test]
 fn three_streams_cascading_overlaps() {
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T10:30:00Z"),
-    ]);
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T10:00:00Z", "2026-03-16T11:30:00Z"),
-    ]);
-    let stream_c = stream("sideproject", vec![
-        event("2026-03-16T11:00:00Z", "2026-03-16T12:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T09:00:00Z", "2026-03-16T10:30:00Z")],
+    );
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T10:00:00Z", "2026-03-16T11:30:00Z")],
+    );
+    let stream_c = stream(
+        "sideproject",
+        vec![event("2026-03-16T11:00:00Z", "2026-03-16T12:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -194,12 +203,14 @@ fn empty_streams_produce_full_window_free_slot() {
 
 #[test]
 fn opaque_privacy_hides_source_count() {
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z"),
-    ]);
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T09:30:00Z", "2026-03-16T10:30:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z")],
+    );
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T09:30:00Z", "2026-03-16T10:30:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -225,23 +236,20 @@ fn find_first_free_across_respects_min_duration() {
     // Create events leaving only short gaps:
     // Stream A: 09:00-09:45 (leaves 15 min gap)
     // Stream B: 10:00-12:00
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T09:45:00Z"),
-    ]);
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T10:00:00Z", "2026-03-16T12:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T09:00:00Z", "2026-03-16T09:45:00Z")],
+    );
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T10:00:00Z", "2026-03-16T12:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 9, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
 
     // Looking for 60 min slot — the 15 min gap should be skipped
-    let slot = find_first_free_across(
-        &[stream_a, stream_b],
-        window_start,
-        window_end,
-        60,
-    );
+    let slot = find_first_free_across(&[stream_a, stream_b], window_start, window_end, 60);
     assert!(slot.is_some());
     let slot = slot.unwrap();
     assert_eq!(
@@ -255,16 +263,19 @@ fn find_first_free_across_respects_min_duration() {
 
 #[test]
 fn events_outside_window_are_clipped() {
-    let stream_a = stream("work", vec![
-        // Starts before window, ends inside
-        event("2026-03-16T07:00:00Z", "2026-03-16T09:30:00Z"),
-        // Entirely inside window
-        event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z"),
-        // Starts inside window, ends after
-        event("2026-03-16T16:30:00Z", "2026-03-16T18:00:00Z"),
-        // Entirely outside window — should be ignored
-        event("2026-03-16T20:00:00Z", "2026-03-16T21:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![
+            // Starts before window, ends inside
+            event("2026-03-16T07:00:00Z", "2026-03-16T09:30:00Z"),
+            // Entirely inside window
+            event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z"),
+            // Starts inside window, ends after
+            event("2026-03-16T16:30:00Z", "2026-03-16T18:00:00Z"),
+            // Entirely outside window — should be ignored
+            event("2026-03-16T20:00:00Z", "2026-03-16T21:00:00Z"),
+        ],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -294,13 +305,15 @@ fn events_outside_window_are_clipped() {
 #[test]
 fn all_day_event_across_streams() {
     // Stream A has an all-day event (08:00-17:00)
-    let stream_a = stream("work", vec![
-        event("2026-03-16T08:00:00Z", "2026-03-16T17:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T08:00:00Z", "2026-03-16T17:00:00Z")],
+    );
     // Stream B has a partial event
-    let stream_b = stream("personal", vec![
-        event("2026-03-16T12:00:00Z", "2026-03-16T13:00:00Z"),
-    ]);
+    let stream_b = stream(
+        "personal",
+        vec![event("2026-03-16T12:00:00Z", "2026-03-16T13:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -340,11 +353,14 @@ fn window_metadata_preserved() {
 
 #[test]
 fn multiple_events_in_single_stream_merge() {
-    let stream_a = stream("work", vec![
-        event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z"),
-        event("2026-03-16T09:30:00Z", "2026-03-16T10:30:00Z"), // Overlaps with previous
-        event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![
+            event("2026-03-16T09:00:00Z", "2026-03-16T10:00:00Z"),
+            event("2026-03-16T09:30:00Z", "2026-03-16T10:30:00Z"), // Overlaps with previous
+            event("2026-03-16T14:00:00Z", "2026-03-16T15:00:00Z"),
+        ],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
@@ -364,9 +380,10 @@ fn multiple_events_in_single_stream_merge() {
 #[test]
 fn find_first_free_across_no_qualifying_slot() {
     // Fill the entire window with events
-    let stream_a = stream("work", vec![
-        event("2026-03-16T08:00:00Z", "2026-03-16T17:00:00Z"),
-    ]);
+    let stream_a = stream(
+        "work",
+        vec![event("2026-03-16T08:00:00Z", "2026-03-16T17:00:00Z")],
+    );
 
     let window_start = Utc.with_ymd_and_hms(2026, 3, 16, 8, 0, 0).unwrap();
     let window_end = Utc.with_ymd_and_hms(2026, 3, 16, 17, 0, 0).unwrap();
