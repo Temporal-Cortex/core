@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-02-18
+
+### Changed
+- **Dependencies**: Upgraded rrule 0.13→0.14, PyO3 0.23→0.28, criterion 0.5→0.8, vitest 3→4, @types/node 20→25, clap 4.5.58→4.5.59
+- **CI**: Upgraded GitHub Actions — checkout v4→v6, setup-python v5→v6, setup-node v4→v6, cache v4→v5
+- **Security**: Removed RUSTSEC-2025-0020 advisory ignore (fixed in PyO3 0.28)
+- **Docs**: Fixed stale rrule version references in Truth Engine README and source comments
+- **Config**: Restored dependabot.yml for automated dependency updates
+
 ## [0.1.0] - 2026-02-16
 
 ### Added
@@ -29,5 +38,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Release**: Automated publishing to crates.io, npm, and PyPI on version tags
 - **QA**: 446+ Rust tests, 39+ JS tests, 26 Python tests, ~9,000 property-based tests
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-core/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-core/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/billylui/temporal-cortex-core/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/billylui/temporal-cortex-core/releases/tag/v0.1.0

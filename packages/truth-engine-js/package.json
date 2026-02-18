@@ -1,6 +1,6 @@
 {
   "name": "@temporal-cortex/truth-engine",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Truth Engine — deterministic RRULE expansion, conflict detection, free/busy for AI calendar agents",
   "type": "module",
   "main": "dist/index.js",

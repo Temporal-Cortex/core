@@ -42,7 +42,7 @@ let free = find_free_slots(
 
 ### RRULE Expansion
 
-- Full RFC 5545 recurrence rule support via the `rrule` crate v0.13
+- Full RFC 5545 recurrence rule support via the `rrule` crate v0.14
 - `FREQ`: DAILY, WEEKLY, MONTHLY, YEARLY
 - `BYDAY`, `BYMONTH`, `BYMONTHDAY`, `BYSETPOS`, `INTERVAL`, `COUNT`, `UNTIL`
 - EXDATE exclusions via `expand_rrule_with_exdates()`

@@ -1,6 +1,6 @@
 //! RRULE expansion -- converts recurrence rule strings into concrete datetime instances.
 //!
-//! Wraps the `rrule` crate (v0.13) and `chrono-tz` to provide deterministic expansion
+//! Wraps the `rrule` crate (v0.14) and `chrono-tz` to provide deterministic expansion
 //! of RFC 5545 recurrence rules with correct DST handling.
 
 use crate::error::{Result, TruthError};
