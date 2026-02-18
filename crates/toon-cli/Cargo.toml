@@ -15,7 +15,7 @@ name = "toon"
 path = "src/main.rs"
 
 [dependencies]
-toon-core = { path = "../toon-core" }
+toon-core = { path = "../toon-core", version = "0.1.0" }
 clap = { workspace = true }
 serde_json = { workspace = true }
 anyhow = { workspace = true }
