@@ -103,4 +103,4 @@ cargo test -p temporal-cortex-toon
 
 ## License
 
-MIT
+MIT OR Apache-2.0

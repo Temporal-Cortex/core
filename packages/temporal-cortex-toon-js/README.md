@@ -85,4 +85,4 @@ pnpm --filter @temporal-cortex/toon test
 
 ## License
 
-MIT
+MIT OR Apache-2.0

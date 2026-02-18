@@ -36,4 +36,4 @@ TOON is a compact, human-readable format that minimizes token usage when feeding
 
 ## License
 
-MIT
+MIT OR Apache-2.0

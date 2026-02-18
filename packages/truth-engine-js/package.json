@@ -15,7 +15,7 @@
     "test:watch": "vitest"
   },
   "keywords": ["rrule", "calendar", "icalendar", "recurrence", "wasm"],
-  "license": "MIT",
+  "license": "MIT OR Apache-2.0",
   "author": "Billy Lui",
   "repository": {
     "type": "git",

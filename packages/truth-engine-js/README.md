@@ -169,4 +169,4 @@ pnpm --filter @temporal-cortex/truth-engine test
 
 ## License
 
-MIT
+MIT OR Apache-2.0

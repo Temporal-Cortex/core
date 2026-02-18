@@ -86,4 +86,4 @@ The WASM functions are thin wrappers that:
 
 ## License
 
-MIT
+MIT OR Apache-2.0

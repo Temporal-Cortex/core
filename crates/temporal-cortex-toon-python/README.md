@@ -117,4 +117,4 @@ The Python module (`temporal_cortex_toon`) is a thin wrapper that:
 
 ## License
 
-MIT
+MIT OR Apache-2.0

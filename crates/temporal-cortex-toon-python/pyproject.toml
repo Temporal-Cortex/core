@@ -7,7 +7,7 @@ name = "temporal-cortex-toon"
 version = "0.1.0"
 description = "TOON encoder/decoder and Truth Engine (RRULE expansion, availability merging) for AI calendar agents"
 readme = "README.md"
-license = "MIT"
+license = "MIT OR Apache-2.0"
 requires-python = ">=3.8"
 authors = [
     { name = "Billy Lui" },
@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Topic :: Software Development :: Libraries",
     "Topic :: Office/Business :: Scheduling",
 ]
