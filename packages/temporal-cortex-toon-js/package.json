@@ -15,7 +15,7 @@
     "test:watch": "vitest"
   },
   "keywords": ["toon", "json", "llm", "compression", "wasm"],
-  "license": "MIT OR Apache-2.0",
+  "license": "MIT",
   "author": "Billy Lui",
   "repository": {
     "type": "git",

@@ -109,4 +109,4 @@ cargo test -p truth-engine
 
 ## License
 
-MIT OR Apache-2.0
+MIT
