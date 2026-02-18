@@ -1,0 +1,16 @@
+# Default owners for everything in the repo
+* @billylui
+
+# Rust crates
+/crates/toon-core/          @billylui
+/crates/toon-cli/           @billylui
+/crates/toon-wasm/          @billylui
+/crates/toon-python/        @billylui
+/crates/truth-engine/       @billylui
+/crates/truth-engine-wasm/  @billylui
+
+# JS packages
+/packages/                  @billylui
+
+# CI/CD
+/.github/                   @billylui

@@ -155,8 +155,11 @@ jobs:
   # Python Bindings Tests
   # ---------------------------------------------------------------------------
   test-python:
-    name: Test Python
+    name: Test Python ${{ matrix.python-version }}
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
 
@@ -170,14 +173,14 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: python-${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: python-${{ matrix.python-version }}-${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            python-${{ runner.os }}-cargo-
+            python-${{ matrix.python-version }}-${{ runner.os }}-cargo-
 
-      - name: Setup Python 3.12
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: ${{ matrix.python-version }}
 
       - name: Create virtualenv and install tools
         working-directory: crates/toon-python

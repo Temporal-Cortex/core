@@ -1,5 +1,11 @@
 # Temporal Cortex Core
 
+[![CI](https://github.com/billylui/temporal-cortex-core/actions/workflows/ci.yml/badge.svg)](https://github.com/billylui/temporal-cortex-core/actions/workflows/ci.yml)
+[![crates.io](https://img.shields.io/crates/v/truth-engine.svg)](https://crates.io/crates/truth-engine)
+[![npm](https://img.shields.io/npm/v/@temporal-cortex/truth-engine.svg)](https://www.npmjs.com/package/@temporal-cortex/truth-engine)
+[![PyPI](https://img.shields.io/pypi/v/toon-format.svg)](https://pypi.org/project/toon-format/)
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE-MIT)
+
 Deterministic calendar computation for AI agents. Merge availability across calendars, expand recurrence rules, detect conflicts, and compress calendar data — all without LLM inference.
 
 ## The Problem
@@ -15,14 +21,14 @@ AI agents scheduling on behalf of humans face a fragmented calendar landscape. A
 
 ## Packages
 
-| Package | Install | Language |
-|---------|---------|----------|
-| `truth-engine` | `cargo add truth-engine` | Rust |
-| `@temporal-cortex/truth-engine` | `npm i @temporal-cortex/truth-engine` | JavaScript (WASM) |
-| `toon-core` | `cargo add toon-core` | Rust |
-| `toon-cli` | `cargo install toon-cli` | CLI |
-| `@temporal-cortex/toon` | `npm i @temporal-cortex/toon` | JavaScript (WASM) |
-| `toon-format` | `pip install toon-format` | Python |
+| Package | Install | Docs | Language |
+|---------|---------|------|----------|
+| `truth-engine` | `cargo add truth-engine` | [docs.rs](https://docs.rs/truth-engine) | Rust |
+| `@temporal-cortex/truth-engine` | `npm i @temporal-cortex/truth-engine` | [README](packages/truth-engine-js/) | JavaScript (WASM) |
+| `toon-core` | `cargo add toon-core` | [docs.rs](https://docs.rs/toon-core) | Rust |
+| `toon-cli` | `cargo install toon-cli` | [CLI usage](#toon-cli) | CLI |
+| `@temporal-cortex/toon` | `npm i @temporal-cortex/toon` | [README](packages/toon-js/) | JavaScript (WASM) |
+| `toon-format` | `pip install toon-format` | [README](crates/toon-python/) | Python |
 
 ## Quick Start
 
@@ -169,6 +175,31 @@ attendees[2]{email,responseStatus}:
 
 Key features: key folding (indentation replaces braces), tabular arrays (CSV-like rows for uniform objects), inline arrays, and context-dependent quoting.
 
+## TOON CLI
+
+```bash
+# Install
+cargo install toon-cli
+
+# Encode JSON to TOON (stdin to stdout)
+echo '{"name":"Alice","age":30}' | toon encode
+
+# Encode from file to file
+toon encode -i data.json -o data.toon
+
+# Encode with field filtering (strip noisy fields before encoding)
+echo '{"name":"Event","etag":"abc"}' | toon encode --filter etag
+
+# Encode with Google Calendar preset filter
+toon encode --filter-preset google -i calendar.json
+
+# Decode TOON back to pretty-printed JSON
+toon decode -i data.toon
+
+# Show compression statistics
+toon stats -i data.json
+```
+
 ## Development
 
 This project follows strict **Test-Driven Development** (Red-Green-Refactor). No production code is written without a corresponding test first.
@@ -234,6 +265,16 @@ Every person's availability is fragmented across calendar providers. Google can'
 Truth Engine provides the deterministic computation layer to merge these fragmented views into a single source of truth. It's the foundation for building scheduling infrastructure that works across calendar boundaries, with privacy controls that let you share availability without exposing event details.
 
 Think of it as DNS for human time — a resolution layer that maps a person's identity to their true availability, regardless of where their calendars live.
+
+## Roadmap
+
+- [ ] Browser/Deno WASM target (currently Node.js only)
+- [ ] TOON streaming encoder for large payloads
+- [ ] `toon-cli` batch processing for directories
+- [ ] Additional calendar filter presets (Outlook, Apple Calendar)
+- [ ] Truth Engine: VTODO/VJOURNAL support
+
+See [feature requests](https://github.com/billylui/temporal-cortex-core/issues?q=is%3Aissue+label%3Aenhancement) for community-suggested improvements.
 
 ## Contributing
 
