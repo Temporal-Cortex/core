@@ -64,6 +64,11 @@ jobs:
     name: Test Rust
     runs-on: ubuntu-latest
     steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup
+          sudo apt-get clean
+
       - uses: actions/checkout@v6
 
       - name: Install Rust stable
@@ -90,6 +95,11 @@ jobs:
     name: Test WASM + JS
     runs-on: ubuntu-latest
     steps:
+      - name: Free disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup
+          sudo apt-get clean
+
       - uses: actions/checkout@v6
 
       - name: Install Rust stable
