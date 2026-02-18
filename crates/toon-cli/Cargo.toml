@@ -6,6 +6,9 @@ license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 description = "CLI tool for TOON (Token-Oriented Object Notation) encoding/decoding"
+readme = "README.md"
+keywords = ["toon", "json", "llm", "cli", "compression"]
+categories = ["command-line-utilities", "encoding"]
 
 [[bin]]
 name = "toon"

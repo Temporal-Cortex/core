@@ -6,6 +6,7 @@ license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 description = "TOON (Token-Oriented Object Notation) encoder/decoder — compact JSON for LLMs"
+readme = "README.md"
 keywords = ["toon", "json", "llm", "compression", "serialization"]
 categories = ["encoding", "parser-implementations"]
 

@@ -6,6 +6,7 @@ license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 description = "WASM bindings for truth-engine (RRULE expansion, conflict detection, free/busy)"
+publish = false
 
 [lib]
 crate-type = ["cdylib", "rlib"]

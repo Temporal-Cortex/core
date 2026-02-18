@@ -207,9 +207,17 @@ jobs:
           restore-keys: |
             publish-${{ runner.os }}-cargo-
 
-      # Publish in dependency order: toon-core first, then dependents
+      # Publish in dependency order: leaves first, then dependents
       - name: Publish toon-core
         run: cargo publish -p toon-core --allow-dirty
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+
+      - name: Wait for crates.io index update
+        run: sleep 30
+
+      - name: Publish truth-engine
+        run: cargo publish -p truth-engine --allow-dirty
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 

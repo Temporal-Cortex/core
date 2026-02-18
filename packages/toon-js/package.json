@@ -16,6 +16,16 @@
   },
   "keywords": ["toon", "json", "llm", "compression", "wasm"],
   "license": "MIT OR Apache-2.0",
+  "author": "Billy Lui",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/billylui/temporal-cortex-core.git",
+    "directory": "packages/toon-js"
+  },
+  "homepage": "https://github.com/billylui/temporal-cortex-core",
+  "bugs": {
+    "url": "https://github.com/billylui/temporal-cortex-core/issues"
+  },
   "devDependencies": {
     "typescript": "^5",
     "vitest": "^3"

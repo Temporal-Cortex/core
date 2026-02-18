@@ -5,11 +5,31 @@ build-backend = "maturin"
 [project]
 name = "toon-format"
 version = "0.1.0"
+description = "TOON encoder/decoder and Truth Engine (RRULE expansion, availability merging) for AI calendar agents"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
 requires-python = ">=3.8"
+authors = [
+    { name = "Billy Lui" },
+]
+keywords = ["toon", "json", "llm", "calendar", "rrule", "icalendar"]
 classifiers = [
     "Programming Language :: Rust",
     "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Office/Business :: Scheduling",
 ]
+
+[project.urls]
+Homepage = "https://github.com/billylui/temporal-cortex-core"
+Repository = "https://github.com/billylui/temporal-cortex-core"
+"Bug Tracker" = "https://github.com/billylui/temporal-cortex-core/issues"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
