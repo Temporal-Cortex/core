@@ -7,9 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-02-22
+
 ### Changed
 - Removed PAYG pricing table from README "Going to Production?" section
-- Updated Platform CTA link
+- Updated Platform CTA link to tiered "Ready for More?" messaging
 
 ## [0.2.1] - 2026-02-20
 
@@ -69,7 +71,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Release**: Automated publishing to crates.io, npm, and PyPI on version tags
 - **QA**: 446+ Rust tests, 39+ JS tests, 26 Python tests, ~9,000 property-based tests
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-core/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-core/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/billylui/temporal-cortex-core/compare/v0.2.1...v0.3.0
 [0.2.1]: https://github.com/billylui/temporal-cortex-core/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/billylui/temporal-cortex-core/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/billylui/temporal-cortex-core/compare/v0.1.0...v0.1.1
