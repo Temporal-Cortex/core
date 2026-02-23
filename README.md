@@ -6,21 +6,31 @@
 [![PyPI](https://img.shields.io/pypi/v/temporal-cortex-toon.svg)](https://pypi.org/project/temporal-cortex-toon/)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE-MIT)
 
-Stop LLMs from hallucinating your calendar. Deterministic temporal resolution, RRULE expansion, multi-calendar availability merging, and conflict detection — no inference, no API keys.
+**v0.3.0** · [Changelog](CHANGELOG.md)
 
-## The Problem
+Temporal Cortex Core is a deterministic computation library that replaces LLM inference for calendar math. It provides temporal resolution ("next Tuesday at 2pm" → RFC 3339), RFC 5545 RRULE expansion, multi-calendar availability merging, conflict detection, and TOON token compression — available for Rust, JavaScript/WASM, and Python. No network calls, no API keys. Used by the [Temporal Cortex MCP server](https://github.com/billylui/temporal-cortex-mcp).
+
+## Why do LLMs fail at calendar computation?
 
 LLMs hallucinate **60% of the time** on date, time, and calendar tasks — the worst-performing category in the [AuthenHallu benchmark](https://arxiv.org/abs/2510.10539). Ask a model "When is the 3rd Tuesday of March 2026 at 2pm Pacific in UTC?" and it will confidently give the wrong answer more often than not.
 
 Every person's availability is also fragmented across Google Calendar, Outlook, and iCloud. No single provider sees all of them. AI agents inherit this blindness — leading to double-bookings, missed conflicts, and scheduling drift.
 
-## The Fix
+## How does Temporal Cortex Core solve this?
 
 **Truth Engine** is a deterministic computation layer that replaces LLM inference for calendar math: temporal resolution (`"next Tuesday at 2pm"` → RFC 3339), timezone conversion, duration computation, RRULE expansion, multi-calendar availability merging, and conflict detection. No network calls. No API keys. Just math.
 
 **TOON** (Token-Oriented Object Notation) compresses calendar payloads by 40-60% before they enter the context window. Perfect roundtrip fidelity.
 
-## Quick Start
+For a ready-to-use Model Context Protocol server with these capabilities built in, see [Temporal Cortex MCP](https://github.com/billylui/temporal-cortex-mcp).
+
+## How do I use Temporal Cortex Core?
+
+**Use Temporal Cortex Core in 3 steps:**
+
+1. **Install** for your language — Rust, JavaScript, or Python (see installation section below).
+2. **Expand events** — use `expand_rrule()` to turn recurrence rules into concrete datetime instances with correct DST handling.
+3. **Merge availability** — use `merge_availability()` to combine event streams from multiple calendars into a unified busy/free view.
 
 ### Python
 
@@ -97,7 +107,7 @@ let availability = merge_availability(
 // availability.free: available windows between busy periods
 ```
 
-## What's Inside
+## What features does Temporal Cortex Core include?
 
 | Feature | Description |
 |---------|-------------|
@@ -113,7 +123,7 @@ let availability = merge_availability(
 
 Pure computation. No network calls. No API keys. No setup. 510+ Rust tests, 42 JS tests, 30 Python tests, ~9,000 property-based tests.
 
-## Installation
+## How do I install Temporal Cortex Core?
 
 **Rust**
 
@@ -141,19 +151,17 @@ pip install temporal-cortex-toon  # includes both TOON + Truth Engine functions
 cargo install temporal-cortex-toon-cli
 ```
 
-## Going to Production?
+## How do I use Temporal Cortex Core in production?
 
-`merge_availability()` works perfectly on local test data. Then production happens:
+`merge_availability()` and all Core functions work in any production environment. For production calendar integrations, three additional challenges arise:
 
-- **OAuth token refresh** across Google, Outlook, and iCloud — each with different scopes, error codes, and rate limits
-- **Provider differences** — Google returns RFC 3339, Outlook returns truncated UTC, iCloud returns... whatever CalDAV feels like
-- **Race conditions** — two agents book the same 2pm slot 400ms apart. Without distributed locking, both succeed. One person gets double-booked.
+- **OAuth token refresh** across Google Calendar, Microsoft Outlook, and CalDAV — each with different scopes, error codes, and rate limits
+- **Provider differences** — Google returns RFC 3339, Outlook returns truncated UTC, CalDAV uses its own format conventions
+- **Race conditions** — two agents booking the same slot simultaneously without distributed locking
 
-The **Temporal Cortex Platform** handles all of this: managed OAuth connectors for Google, Outlook, and CalDAV; Two-Phase Commit with distributed locking for double-booking prevention; per-caller policy rules; and a managed cloud dashboard.
+The [Temporal Cortex MCP server](https://github.com/billylui/temporal-cortex-mcp) handles all of this: managed OAuth connectors, Two-Phase Commit with distributed locking, and multi-calendar availability merging. A managed cloud option is available via [early access](https://tally.so/r/aQ66W2).
 
-**[Request early access →](https://tally.so/r/aQ66W2)**
-
-## TOON Format
+## What is TOON and how does it reduce token usage?
 
 TOON minimizes token usage when feeding structured data to LLMs.
 
@@ -193,11 +201,11 @@ toon encode --filter-preset google -i calendar.json
 toon stats -i data.json
 ```
 
-## Temporal Computation
+## How does the temporal computation module work?
 
 The `temporal` module provides four pure functions for datetime work that LLMs get wrong:
 
-### Resolve relative expressions
+### How do I resolve human datetime expressions?
 
 ```rust
 use truth_engine::temporal::{resolve_relative, ResolvedDatetime};
@@ -223,7 +231,7 @@ let result = resolve_relative_with_options(now, "start of week", "America/New_Yo
 // Returns Sunday 00:00 instead of Monday 00:00
 ```
 
-### Convert timezones
+### How do I convert between timezones?
 
 ```rust
 use truth_engine::temporal::convert_timezone;
@@ -233,7 +241,7 @@ assert_eq!(result.local, "2026-03-08T01:00:00-05:00");
 assert_eq!(result.dst_active, false);
 ```
 
-### Compute durations
+### How do I compute duration between timestamps?
 
 ```rust
 use truth_engine::temporal::compute_duration;
@@ -247,7 +255,7 @@ assert_eq!(d.minutes, 30);
 assert_eq!(d.human_readable, "8 hours, 30 minutes");
 ```
 
-### Adjust timestamps
+### How do I adjust timestamps across DST?
 
 ```rust
 use truth_engine::temporal::adjust_timestamp;
@@ -263,7 +271,7 @@ assert!(result.adjusted_local.contains("01:00:00-04:00"));
 
 All four functions are pure computation — no clock, no network. They take explicit datetime/anchor parameters and return deterministic results. Available in Rust, WASM/JavaScript, and Python.
 
-## Architecture
+## What is the crate architecture?
 
 ```
 temporal-cortex-core/
@@ -280,7 +288,33 @@ temporal-cortex-core/
 └── docs/
 ```
 
-## Development
+## Frequently Asked Questions
+
+### Does Temporal Cortex Core require network access or API keys?
+
+No. All computation is pure and deterministic. The library takes explicit datetime parameters and returns results using only CPU computation. There are no network calls, no API keys, and no external dependencies beyond the Rust standard library and chrono/chrono-tz.
+
+### What RRULE edge cases does Truth Engine handle?
+
+Truth Engine handles DST transitions (events at 2pm Pacific stay at 2pm Pacific year-round), BYSETPOS=-1 (last occurrence of a weekday per month), EXDATE with timezone offsets, INTERVAL>1 with multi-day BYDAY, and February 29 yearly recurrences (correctly skipping non-leap years). All behaviors follow RFC 5545 strictly.
+
+### How does availability merging work across calendars?
+
+Pass N event streams from N calendars to `merge_availability()`. The function merges overlapping busy periods, computes free gaps within a time window, and returns a unified busy/free view. Privacy levels control whether the output reveals which calendar each busy block came from (Full) or only shows aggregated busy/free status (Opaque).
+
+### What languages and platforms are supported?
+
+Rust (`cargo add truth-engine`), JavaScript/TypeScript (`npm i @temporal-cortex/truth-engine`, WASM-based), and Python (`pip install temporal-cortex-toon`, PyO3 native bindings). The TOON encoder/decoder is available as a separate package in all three ecosystems. A CLI (`toon encode` / `toon decode` / `toon stats`) is also available via `cargo install temporal-cortex-toon-cli`.
+
+### What is the difference between Core and the MCP server?
+
+Core is the computation library — it provides the math for temporal resolution, RRULE expansion, availability merging, and TOON encoding. The [MCP server](https://github.com/billylui/temporal-cortex-mcp) wraps Core in a Model Context Protocol interface, adds calendar provider connectors (Google Calendar, Microsoft Outlook, CalDAV), and provides Two-Phase Commit booking. Use Core directly when you need the computation without MCP infrastructure.
+
+### How does TOON compare to JSON for LLM context windows?
+
+TOON compresses structured data by 40-60% compared to JSON while maintaining perfect roundtrip fidelity (encode then decode produces identical output). Key techniques include indentation-based nesting (replacing braces), tabular arrays for uniform objects (replacing repeated keys), and context-dependent quoting. A Google Calendar event payload typically compresses by 38%.
+
+## How do I build and test Temporal Cortex Core?
 
 ### Prerequisites
 
@@ -314,7 +348,7 @@ pytest tests/ -v
 
 This project follows strict TDD (Red-Green-Refactor). No production code without a corresponding test.
 
-## Ecosystem
+## Where can I learn more about Temporal Cortex?
 
 - **[temporal-cortex-mcp](https://github.com/billylui/temporal-cortex-mcp)** — MCP server (11 tools, 4 layers) powered by Truth Engine and TOON
 - **[temporal-cortex-skill](https://github.com/billylui/temporal-cortex-skill)** — Agent Skill that teaches AI agents the scheduling workflow
