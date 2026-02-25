@@ -6,7 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/v/temporal-cortex-toon.svg)](https://pypi.org/project/temporal-cortex-toon/)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE-MIT)
 
-**v0.3.0** · [Changelog](CHANGELOG.md)
+**v0.3.0** · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
 Temporal Cortex Core is a deterministic computation library that replaces LLM inference for calendar math. It provides temporal resolution ("next Tuesday at 2pm" → RFC 3339), RFC 5545 RRULE expansion, multi-calendar availability merging, conflict detection, and TOON token compression — available for Rust, JavaScript/WASM, and Python. No network calls, no API keys. Used by the [Temporal Cortex MCP server](https://github.com/billylui/temporal-cortex-mcp).
 
