@@ -2,7 +2,7 @@
 
 Deterministic calendar computation for AI agents: temporal resolution, timezone conversion, RRULE expansion, availability merging, and conflict detection.
 
-LLMs hallucinate 60% of the time on date/time tasks. They can't reliably answer "What time is next Tuesday at 2pm EST in UTC?" or compute "3rd Tuesday of each month across DST." The Truth Engine replaces inference with deterministic computation — no network, no API keys, just math.
+Even the latest LLMs score below 50% on temporal reasoning — scheduling accuracy drops to 29%, duration calculations to 13% ([Test of Time](https://arxiv.org/abs/2406.09170), [OOLONG](https://arxiv.org/abs/2511.02817)). They can't reliably answer "What time is next Tuesday at 2pm EST in UTC?" or compute "3rd Tuesday of each month across DST." The Truth Engine replaces inference with deterministic computation — no network, no API keys, just math.
 
 ## Usage
 

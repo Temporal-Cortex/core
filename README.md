@@ -12,7 +12,7 @@ Temporal Cortex Core is a deterministic computation library that replaces LLM in
 
 ## Why do LLMs fail at calendar computation?
 
-LLMs hallucinate **60% of the time** on date, time, and calendar tasks — the worst-performing category in the [AuthenHallu benchmark](https://arxiv.org/abs/2510.10539). Ask a model "When is the 3rd Tuesday of March 2026 at 2pm Pacific in UTC?" and it will confidently give the wrong answer more often than not.
+Even the latest LLMs — GPT-5, Claude, Gemini — **score below 50%** on temporal reasoning tasks ([OOLONG benchmark](https://arxiv.org/abs/2511.02817)). Earlier models scored as low as 29% on scheduling and 13% on duration calculations ([Test of Time, ICLR 2025](https://arxiv.org/abs/2406.09170)). Ask a model "When is the 3rd Tuesday of March 2026 at 2pm Pacific in UTC?" and it will confidently give the wrong answer more often than not.
 
 Every person's availability is also fragmented across Google Calendar, Outlook, and iCloud. No single provider sees all of them. AI agents inherit this blindness — leading to double-bookings, missed conflicts, and scheduling drift.
 
@@ -20,7 +20,7 @@ Every person's availability is also fragmented across Google Calendar, Outlook, 
 
 **Truth Engine** is a deterministic computation layer that replaces LLM inference for calendar math: temporal resolution (`"next Tuesday at 2pm"` → RFC 3339), timezone conversion, duration computation, RRULE expansion, multi-calendar availability merging, and conflict detection. No network calls. No API keys. Just math.
 
-**TOON** (Token-Oriented Object Notation) compresses calendar payloads by 40-60% before they enter the context window. Perfect roundtrip fidelity.
+**TOON** (Token-Oriented Object Notation) compresses calendar payloads by ~40% before they enter the context window. Perfect roundtrip fidelity.
 
 For a ready-to-use Model Context Protocol server with these capabilities built in, see [Temporal Cortex MCP](https://github.com/billylui/temporal-cortex-mcp).
 
@@ -117,7 +117,7 @@ let availability = merge_availability(
 | **Privacy levels** | `Opaque` (just busy/free) or `Full` (includes source counts per block). |
 | **Conflict detection** | Pairwise overlap detection with overlap duration calculation. |
 | **Free slot finder** | Find gaps between busy periods, or the first slot of N minutes across all calendars. |
-| **TOON encoding** | 40-60% fewer tokens than JSON for calendar payloads. Perfect roundtrip fidelity. |
+| **TOON encoding** | ~40% fewer tokens than JSON for calendar payloads. Perfect roundtrip fidelity. |
 | **Semantic filtering** | Strip noisy fields (etag, kind, htmlLink) before encoding. Google Calendar preset included. |
 | **TOON CLI** | Pipe JSON through `toon encode` / `toon decode` from the command line. |
 
@@ -312,7 +312,7 @@ Core is the computation library — it provides the math for temporal resolution
 
 ### How does TOON compare to JSON for LLM context windows?
 
-TOON compresses structured data by 40-60% compared to JSON while maintaining perfect roundtrip fidelity (encode then decode produces identical output). Key techniques include indentation-based nesting (replacing braces), tabular arrays for uniform objects (replacing repeated keys), and context-dependent quoting. A Google Calendar event payload typically compresses by 38%.
+TOON compresses structured data by ~40% compared to JSON while maintaining perfect roundtrip fidelity (encode then decode produces identical output). Key techniques include indentation-based nesting (replacing braces), tabular arrays for uniform objects (replacing repeated keys), and context-dependent quoting. A Google Calendar event payload typically compresses by 38%.
 
 ## How do I build and test Temporal Cortex Core?
 
