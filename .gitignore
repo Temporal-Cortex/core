@@ -19,6 +19,7 @@ __pycache__/
 .venv/
 venv/
 *.whl
+*.so
 
 # Environment
 .env
