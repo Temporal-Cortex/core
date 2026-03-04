@@ -350,8 +350,8 @@ This project follows strict TDD (Red-Green-Refactor). No production code without
 
 ## Where can I learn more about Temporal Cortex?
 
-- **[temporal-cortex-mcp](https://github.com/temporal-cortex/mcp)** — MCP server (11 tools, 4 layers) powered by Truth Engine and TOON
-- **[temporal-cortex-skill](https://github.com/temporal-cortex/skills)** — Agent Skill that teaches AI agents the scheduling workflow
+- **[temporal-cortex/mcp](https://github.com/temporal-cortex/mcp)** — MCP server (12 tools, 4 layers) powered by Truth Engine and TOON
+- **[temporal-cortex/skills](https://github.com/temporal-cortex/skills)** — Agent Skills that teach AI agents the scheduling workflow
 
 ## Contributing
 
