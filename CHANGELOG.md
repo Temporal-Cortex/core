@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **agents**: Added `AGENTS.md` for AI coding agent guidance (crate structure, build/test commands, conventions)
+
 ## [0.3.1] - 2026-02-28
 
 ### Changed
